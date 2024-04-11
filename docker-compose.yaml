@@ -1,0 +1,54 @@
+name: full-wordpress-container
+
+services:
+    database:
+        image: mysql:8.3.0
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: somewordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+            TERM: ${TERM}
+        volumes:
+            - database:/var/lib/mysql
+
+    wordpress:
+        depends_on:
+            - database
+        image: wordpress:6.5.2-php8.3-apache
+        restart: unless-stopped
+        ports:
+            - "3000:80"
+        environment:
+            TERM: ${TERM}
+            WORDPRESS_DB_HOST: database:3306
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DB_NAME: wordpress
+        volumes:
+            - ./src:/var/www/html
+
+    reverse-proxy:
+        depends_on:
+            - wordpress
+        image: caddy:2.7.6-alpine
+        restart: unless-stopped
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - "80:80"
+            - "3000:80"
+            - "443:443"
+            - "443:443/udp"
+        # links:
+        #     - "wordpress:webserver"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - reverse-proxy-config:/config
+            - reverse-proxy-data:/data
+
+volumes:
+    database:
+    reverse-proxy-config:
+    reverse-proxy-data:
