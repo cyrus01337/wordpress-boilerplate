@@ -1,5 +1,5 @@
 # TODO: Automate personal choice of shell and dev environment with Chezmoi (togglable with env)
-name: dev-container
+name: full-wordpress-container
 
 services:
     database:
