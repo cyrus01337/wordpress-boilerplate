@@ -1,4 +1,5 @@
-name: full-wordpress-container
+# TODO: Automate personal choice of shell and dev environment with Chezmoi (togglable with env)
+name: dev-container
 
 services:
     database:
@@ -12,14 +13,14 @@ services:
             TERM: ${TERM}
         volumes:
             - database:/var/lib/mysql
+        networks:
+            - backend
 
     wordpress:
         depends_on:
             - database
         image: wordpress:6.5.2-php8.3-apache
         restart: unless-stopped
-        ports:
-            - "3000:80"
         environment:
             TERM: ${TERM}
             WORDPRESS_DB_HOST: database:3306
@@ -27,7 +28,9 @@ services:
             WORDPRESS_DB_PASSWORD: wordpress
             WORDPRESS_DB_NAME: wordpress
         volumes:
-            - ./src:/var/www/html
+            - ../src:/var/www/html
+        networks:
+            - backend
 
     reverse-proxy:
         depends_on:
@@ -38,17 +41,20 @@ services:
             - NET_ADMIN
         ports:
             - "80:80"
-            - "3000:80"
             - "443:443"
             - "443:443/udp"
-        # links:
-        #     - "wordpress:webserver"
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
-            - reverse-proxy-config:/config
+            - reverse-proxy-configuration:/config
             - reverse-proxy-data:/data
+        networks:
+            - backend
+
+networks:
+    backend:
+        driver: bridge
 
 volumes:
     database:
-    reverse-proxy-config:
+    reverse-proxy-configuration:
     reverse-proxy-data:
