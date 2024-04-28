@@ -1,7 +1,9 @@
 {
 	"name": "Full WordPress Container",
 	"service": "wordpress",
-	"dockerComposeFile": "docker-compose.yaml",
+	"image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
+	"privileged": true,
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 	"workspaceFolder": "/workspace",
 	"customizations": {
 		"vscode": {
@@ -13,11 +15,8 @@
 			]
 		}
 	},
-	"mounts": [
-		"source=../,target=/workspace,type=bind,consistency=cached"
-	],
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers-contrib/features/caddy": {}
+		"ghcr.io/devcontainers-contrib/features/caddy": {},
+		"ghcr.io/devcontainers/features/docker-in-docker": {}
 	}
 }

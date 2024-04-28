@@ -4,7 +4,7 @@ name: full-wordpress-container
 services:
     database:
         image: mysql:8.0-bookworm
-        restart: unless-stopped
+        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: somewordpress
             MYSQL_DATABASE: wordpress
@@ -20,15 +20,17 @@ services:
         depends_on:
             - database
         image: wordpress:6.5.2-php8.3-apache
-        restart: unless-stopped
+        restart: always
         environment:
             TERM: ${TERM}
             WORDPRESS_DB_HOST: database:3306
             WORDPRESS_DB_USER: wordpress
             WORDPRESS_DB_PASSWORD: wordpress
             WORDPRESS_DB_NAME: wordpress
+        ports:
+            - "3000:80"
         volumes:
-            - ../src:/var/www/html
+            - ./src:/var/www/html
         networks:
             - backend
 
@@ -36,7 +38,9 @@ services:
         depends_on:
             - wordpress
         image: caddy:2.7.6-alpine
-        restart: unless-stopped
+        profiles:
+            - production
+        restart: always
         cap_add:
             - NET_ADMIN
         ports:
@@ -48,11 +52,14 @@ services:
             - reverse-proxy-configuration:/config
             - reverse-proxy-data:/data
         networks:
+            # - reverse-proxy
             - backend
 
 networks:
     backend:
         driver: bridge
+    # reverse-proxy:
+    #     driver: bridge
 
 volumes:
     database:
