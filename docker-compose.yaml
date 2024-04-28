@@ -52,14 +52,11 @@ services:
             - reverse-proxy-configuration:/config
             - reverse-proxy-data:/data
         networks:
-            # - reverse-proxy
             - backend
 
 networks:
     backend:
         driver: bridge
-    # reverse-proxy:
-    #     driver: bridge
 
 volumes:
     database:
