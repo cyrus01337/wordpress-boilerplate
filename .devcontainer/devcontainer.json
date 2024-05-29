@@ -1,22 +1,22 @@
 {
-	"name": "Full WordPress Container",
-	"service": "wordpress",
-	"image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
-	"privileged": true,
-	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-	"workspaceFolder": "/workspace",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"DEVSENSE.phptools-vscode",
-				"johnbillion.vscode-wordpress-hooks",
-				"matthewpi.caddyfile-support",
-				"yogensia.searchwpdocs"
-			]
-		}
-	},
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/caddy": {},
-		"ghcr.io/devcontainers/features/docker-in-docker": {}
-	}
+    "name": "Full WordPress Container",
+    "service": "wordpress",
+    "image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
+    "privileged": true,
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "DEVSENSE.phptools-vscode",
+                "johnbillion.vscode-wordpress-hooks",
+                "matthewpi.caddyfile-support",
+                "yogensia.searchwpdocs"
+            ]
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/caddy": {},
+        "ghcr.io/devcontainers/features/docker-in-docker": {}
+    }
 }
