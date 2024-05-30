@@ -33,6 +33,7 @@ services:
             - "3000:80"
         volumes:
             - ./src:/var/www/html
+            - ./.htaccess:/var/www/html/.htaccess
         networks:
             - backend
 
