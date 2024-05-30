@@ -1,4 +1,3 @@
-# TODO: Automate personal choice of shell and dev environment with Chezmoi (togglable with env)
 name: full-wordpress-container
 
 services:
@@ -15,8 +14,6 @@ services:
             - SYS_NICE
         volumes:
             - database:/var/lib/mysql
-        networks:
-            - backend
 
     wordpress:
         depends_on:
@@ -36,8 +33,6 @@ services:
         volumes:
             - ./src:/var/www/html
             - ./.htaccess:/var/www/html/.htaccess
-        networks:
-            - backend
 
     reverse-proxy:
         depends_on:
@@ -56,12 +51,6 @@ services:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - reverse-proxy-configuration:/config
             - reverse-proxy-data:/data
-        networks:
-            - backend
-
-networks:
-    backend:
-        driver: bridge
 
 volumes:
     database:
