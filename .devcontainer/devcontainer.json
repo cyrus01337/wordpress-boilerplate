@@ -1,8 +1,6 @@
 {
     "name": "Full WordPress Container",
-    "service": "wordpress",
     "image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
-    "privileged": true,
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
     "workspaceFolder": "/workspace",
     "customizations": {
