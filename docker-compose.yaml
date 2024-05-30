@@ -21,7 +21,9 @@ services:
     wordpress:
         depends_on:
             - database
-        image: wordpress:6.5.2-php8.3-apache
+        build:
+            context: .
+            dockerfile: wordpress.dockerfile
         restart: always
         environment:
             TERM: ${TERM}
